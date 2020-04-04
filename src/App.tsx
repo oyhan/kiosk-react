@@ -1,26 +1,42 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { StateProvider, initialState } from './store/appState';
+import mainReducer from './reducer';
+import MainMenu from './views/MainMenu/MainMenu';
+import RTL from './infrastructure/RTL';
+import { Router, Route, Switch } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import { ConfirmReserve } from './views/ConfirmReserve/Confirm';
+import AppDialog from './components/Dialog/AppDialog';
+import { ReadSettings } from './components/AppControl/ReadSettings';
+import { RestartApp } from './components/AppControl/RestartApp';
+import { Layout } from './views/Layout/Layout';
+
+const hist = createBrowserHistory();
+
 
 const App: React.FC = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RTL>
+      <StateProvider initialState={initialState} reducer={mainReducer} >
+
+        <Router history={hist} >
+          {process.env.NODE_ENV == 'production' ? <RestartApp /> : ""}
+          <ReadSettings />
+          <AppDialog />
+          <Layout />
+
+
+          {/* <ReadSettings /> */}
+
+
+        </Router>
+
+      </StateProvider>
+
+    </RTL>
   );
 }
-
 export default App;

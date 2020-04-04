@@ -1,0 +1,6 @@
+
+export enum Actions {
+    UPDATERESERVE = "UPDATERESERVE",
+    NEXTSTEP = "NEXTSTEP",
+    PREVSTEP = 'PREVSTEP',
+}
